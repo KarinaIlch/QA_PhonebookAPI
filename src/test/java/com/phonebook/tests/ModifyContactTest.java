@@ -59,6 +59,7 @@ public class ModifyContactTest extends TestBase {
                 .then() // тоді (перевірка відповіді)
                 .assertThat().statusCode(200)// очікуємо статус код 200
                 .assertThat().body("message", equalTo("Contact was updated")); // асьортим і отримуємо повідомлення,
-                                                                 // яке є еквівалентним тексту "Contact was updated".
+        // яке є еквівалентним тексту "Contact was updated".
     }
 }
+

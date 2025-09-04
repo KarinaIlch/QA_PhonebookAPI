@@ -8,10 +8,10 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-@Builder
+@Builder // додає шаблон Builder для зручного створення об'єкта
 public class ErrorDto {
 
-    private int status;
-    private String error;
-    private Object message;
+    private int status; // код статусу
+    private String error; // короткий опис помилки
+    private Object message; // текстове повідомлення від сервера
 }

@@ -17,24 +17,28 @@ public class GetAllContactsTest extends TestBase {
                 .header(AUTH,TOKEN)
                 .when()
                 .get("contacts")
-                .then().assertThat().statusCode(200)
+                .then()
+                .assertThat().statusCode(200)
                 .extract().response().as(AllContactsDto.class);
+        // витягуємо всю відповідь і мапимо її у клас AllContactsDto
 
-        for (ContactDto contact: dto.getContacts()){
+        for (ContactDto contact: dto.getContacts()){ // проходимо по кожному контакту з отриманого списку
             System.out.println(contact.getId() + " ***** " + contact.getName());
             System.out.println(" ============= ");
             }
         }
 
         @Test
-    public void getAllContactsWithInvalidToken() {
-        given()
-                .header(AUTH,"wower98u")
+    public void getAllContactsWithInvalidToken() {     // перевіряємо поведінку з неправильним токеном
+
+            given()
+                .header(AUTH,"tyreq") // замість справжнього токена передаємо випадковий рядок
                 .when()
-                .get("contacts")
+                .get("contacts") // пробуємо отримати список контактів
                 .then()
-                .assertThat().statusCode(401)
-                .assertThat().body("error",equalTo("Unauthorized"));
+                .assertThat().statusCode(401) // очікуємо код 401 (Unauthorized)
+                .assertThat().body("error",equalTo("Unauthorized"));  // перевіряємо, що у відповіді поле error = "Unauthorized"
+
         }
     }
 

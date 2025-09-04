@@ -11,7 +11,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class AddContactTest extends TestBase {
 
-    ContactDto contactDto = ContactDto
+    ContactDto contactDto = ContactDto // викликаємо builder для зручного створення ContactDto
             .builder()
             .name("Milla")
             .lastName("Wattson")
@@ -19,20 +19,23 @@ public class AddContactTest extends TestBase {
             .phone("123456789012")
             .address("Berlin")
             .description("goalkeeper")
-            .build();
+            .build(); // будуємо готовий обʼєкт
 
     @Test
+    // позитивний тест: додаємо валідний контакт
     public void addContactSuccessTest() {
+
 //        String message =
-        given()
-                .contentType(ContentType.JSON)
+        given() // початок побудови HTTP-запиту
+                .contentType(ContentType.JSON) // вказуємо тип даних JSON
                 .body(contactDto)
                 .header(AUTH, TOKEN)
-                .when() // когда
-                .post("contacts") // используем метод
-                .then()// тогда
-                .assertThat().statusCode(200)
+                .when()    // коли (виконується запит)
+                .post("contacts")  // POST-запит на endpoint /contacts
+                .then() // тоді (перевіряємо результат)
+                .assertThat().statusCode(200) // очікуємо статус 200
                 .assertThat().body("message", containsString("Contact was added!"));
+//                                // перевіряємо, що у відповіді поле message містить текст "Contact was added!"
 //                .extract().path("message");
 //        System.out.println(message);
     }
@@ -43,8 +46,8 @@ public class AddContactTest extends TestBase {
                 given()
                         .header(AUTH, TOKEN)
                         .contentType(ContentType.JSON)
-                        .body(ContactDto.builder()
-                                // имя мы убрали;
+                        .body(ContactDto.builder() // передаємо тіло запиту — наш contactDto
+                                // спеціально пропускаємо .name()
                                 .lastName("Wattson")
                                 .email("milla123@gm.de")
                                 .phone("123456789012")
@@ -54,7 +57,8 @@ public class AddContactTest extends TestBase {
                         .when()
                         .post("contacts")
                         .then()
-                        .assertThat().statusCode(400)
+                        .assertThat().statusCode(400) // очікуємо помилку 400, бо тест негативний
+                        // перевіряємо, що у відповіді поле message містить текст "Contact was added!"
                         .assertThat().body("message.name",containsString("must not be blank"));
     //                        .extract().response().as(ErrorDto.class);
 //        System.out.println(errorDto.getError() + "*****" + errorDto.getMessage());
@@ -82,4 +86,3 @@ public class AddContactTest extends TestBase {
 //        System.out.println(errorDto.getMessage());
     }
 }
-//{phone=Phone number must contain only digits! And length min 10, max 15!}

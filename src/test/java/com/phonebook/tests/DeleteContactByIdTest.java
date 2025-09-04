@@ -10,12 +10,13 @@ import static io.restassured.RestAssured.given;
 
 public class DeleteContactByIdTest extends TestBase {
 
-    String id;
+    String id; // створюємо змінну
 
     @BeforeMethod
     public void preRequest() {
-
-        String message = given()
+        // Тут ми створюємо новий контакт і отримуємо його id, щоб було що видаляти.
+        String message =
+                given()
                 .contentType(ContentType.JSON)
                 .body(contactDto)
                 .header(AUTH,TOKEN)
@@ -25,13 +26,12 @@ public class DeleteContactByIdTest extends TestBase {
                 .assertThat().statusCode(200)
                 .extract().path("message");
 
-        String[] split = message.split(": ");
-        id = split[1];
-
+        String[] split = message.split(": "); // розділяємо рядок по ": "
+        id = split[1]; // друга частина — це id створеного контакту
     }
 
     @Test
-    public void deleteContactByIdSuccessTest(){
+    public void deleteContactByIdSuccessTest(){ //  видалення контакту по id
         String message =
                 given()
                 .header(AUTH,TOKEN)

@@ -10,6 +10,7 @@ import lombok.ToString;
 @ToString
 @Builder
 
+// створюємо шаблон контакту
 public class ContactDto {
     private String id;
     private String name;

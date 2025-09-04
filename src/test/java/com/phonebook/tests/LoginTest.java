@@ -13,12 +13,13 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class LoginTest extends TestBase {
 
+    // створюємо DTO з правильними даними для логіну
     AuthRequestDto auth = AuthRequestDto.builder()
             .username("mila123@gm.com")
             .password("miWats1*")
             .build();
 
-    // 1 способ получить токен
+    // 1-й спосіб отримати токен
     @Test
     public void loginSuccessTest() {
 
@@ -29,11 +30,15 @@ public class LoginTest extends TestBase {
                 .post("user/login/usernamepassword")
                 .then()
                 .assertThat().statusCode(200)
-                .extract().response().as(AuthResponseDto.class);
+                .extract().response().as(AuthResponseDto.class); // витягуємо відповідь і перетворюємо структуру JSON у Java-об’єкт (DTO)
+
+        //// Якщо відповідь дуже проста (наприклад, лише token), можна обійтися .path().
+        //// Якщо ж відповідь складна або використовується у багатьох тестах — краще замапити у DTO.
+
         System.out.println(token.getToken());
     }
 
-    // 2 способ получить токен
+    // 2-й спосіб отримати токен (через .path)
     @Test
     public void loginSuccessTest2() {
         String token = given()
@@ -42,7 +47,7 @@ public class LoginTest extends TestBase {
                 .post("user/login/usernamepassword")
                 .then()
                 .assertThat().statusCode(200)
-                .extract().path("token");
+                .extract().path("token"); // без DTO, просто дістаємо поле "token"
         System.out.println(token);
 
     }
@@ -83,4 +88,5 @@ public void loginWithWrongPasswordTest2() {
             .assertThat().body("message", equalTo("Login or Password incorrect"));
 
 }}
+
 //eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwic3ViIjoibWlsYTEyM0BnbS5jb20iLCJpc3MiOiJSZWd1bGFpdCIsImV4cCI6MTc1NzU3MjM4NCwiaWF0IjoxNzU2OTcyMzg0fQ.1BGmLj_k6REKTXs9rHRPBADdbMF_K_Znh9ZF6JilfHY
