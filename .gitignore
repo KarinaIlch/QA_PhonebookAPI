@@ -1,3 +1,13 @@
-# Default ignored files
-/shelf/
-/workspace.xml
+# Ігноруємо все
+/*
+
+# Залишаємо .gitignore
+!.gitignore
+
+# Залишаємо src і все всередині
+!/src/
+!/src/**
+
+# Залишаємо idea і все всередині
+!/.idea/
+!/.idea/**
