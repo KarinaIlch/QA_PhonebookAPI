@@ -1,6 +1,3 @@
-/*
-
-!.gitignore
-
-!/src/
-!/src/**
+# Default ignored files
+/shelf/
+/workspace.xml
